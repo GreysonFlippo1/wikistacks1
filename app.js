@@ -6,20 +6,20 @@ const wikiRouter = require('./routes/wiki.js')
 const userRouter = require('./routes/user.js')
 // const { db } = require('./models');
 const models = require('./models');
+const app = express();
 
 // db.authenticate()
 //     .then(() => {
 //         console.log('connected to the database');
 //     });
 
-const app = express();
-
 app.use(morgan('dev'));
-app.use('/wiki', wikiRouter);
-app.use('/user', userRouter);
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: false}));
+
+app.use('/wiki', wikiRouter);
+app.use('/user', userRouter);
 
 // app.get('/wiki', (req, res, next) => {
 //     try {
@@ -33,11 +33,11 @@ app.get('/', (req, res, next)=>{
     res.redirect('/wiki');
 });
 
+
 const PORT = 3000;
 
 const init = async () => {
     await models.db.sync({force: true});
-
     app.listen(PORT, () => {
         console.log(`Server is listening on port ${PORT}!`)
     });
