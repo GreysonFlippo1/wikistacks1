@@ -7,6 +7,7 @@ const { Page } = require('../models');
 //const { addPage } = require('../views/addPage.js');
 const layout = require('../views/layout.js');
 const addPage = require('../views/addPage.js');
+const wikipage = require('../views/wikipage')
 
 
 router.get('/', (req, res, next) => {
@@ -30,14 +31,25 @@ router.post('/', async (req, res, next)=>{
     try {
         await page.save();
         res.redirect(`/wiki/${page.slug}`);
-    } catch (error) { next(error) }
+    } catch (error) {
+        next(error)
+    }
 });
 
-router.get('/add', (req, res, next)=>{
+router.get('/add', (req, res, next) => {
     res.send(addPage());
 });
 
-router.get('/:slug',(req,res,next) => {
+router.get('/:slug', async (req, res, next) => {
+    try {
+        const page = await Page.findOne({
+            where: {
+                slug: req.params.slug
+            }
+        })
+        res.send(wikipage(page))
+    } catch (error) { next(error) }
+
     res.send(`hit dynamic route at ${req.params.slug}`);
 });
 

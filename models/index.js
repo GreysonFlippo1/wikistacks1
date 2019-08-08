@@ -1,16 +1,16 @@
 const Sequelize = require('sequelize');
 
 //Default sequalize url
-// const db = new Sequelize('postgres://localhost:5432/wikistack', {
-//     logging: false
-// });
+const db = new Sequelize('postgres://localhost:5432/wikistack', {
+    logging: false
+});
 
 //Use this if thie code above doesn't doesn't work
-const db = new Sequelize("postgres://postgres:postgres@localhost:1337/wikistack", {
-  logging: false,
-  dialect: 'postgres'
-  // anything else you want to pass
-})
+// const db = new Sequelize("postgres://postgres:postgres@localhost:1337/wikistack", {
+//   logging: false,
+//   dialect: 'postgres'
+//   // anything else you want to pass
+// })
 
 const Page = db.define('page', {
     title: {
