@@ -1,17 +1,29 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize('postgres://localhost:5432/wikistack', {
-    logging: false
-});
+
+//Default sequalize url
+// const db = new Sequelize('postgres://localhost:5432/wikistack', {
+//     logging: false
+// });
+
+//Use this if this doesn't work
+const db = new Sequelize("postgres://postgres:postgres@localhost:1337/wikistack", {
+  logging: false,
+  dialect: 'postgres'
+  // anything else you want to pass
+})
 
 const Page = db.define('page', {
     title: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull:false
     },
     slug: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull:false
     },
     content: {
-      type: Sequelize.TEXT
+      type: Sequelize.TEXT,
+      allowNull:false
     },
     status: {
       type: Sequelize.ENUM('open', 'closed')
@@ -20,10 +32,15 @@ const Page = db.define('page', {
 
   const User = db.define('user', {
     name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull:false
     },
     email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull:false,
+      validate:{
+        isEmail: true,
+      }
     }
   });
 
